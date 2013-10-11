@@ -14,7 +14,7 @@
 	var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
     var bobba,
 		speed = 4,      // speed in frames per second
-        velocity = 100; // bobba's move speed
+        velocity = 200; // bobba's move speed
 
 	function preload() {
 
@@ -47,27 +47,37 @@
 
 	function update() {
 
+        bobba.body.velocity.x = 0;
+        bobba.body.velocity.y = 0;
+
         if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT))
         {
-            bobba.body.velocity.x = -150;
+            bobba.body.velocity.x = velocity*-1;
             bobba.animations.play('walkW');
         }
         else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT))
         {
-            bobba.body.velocity.x = 150;
+            bobba.body.velocity.x = velocity;
             bobba.animations.play('walkE');
         }
 
         if (game.input.keyboard.isDown(Phaser.Keyboard.UP))
         {
-            bobba.body.velocity.y = -150;
+            bobba.body.velocity.y = velocity*-1;
             bobba.animations.play('walkN');
         }
         else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN))
         {
-            bobba.body.velocity.y = 150;
+            bobba.body.velocity.y = velocity;
             bobba.animations.play('walkS');
         }
+
+
+        if (!game.input.keyboard.isDown(Phaser.Keyboard.DOWN) && !game.input.keyboard.isDown(Phaser.Keyboard.UP) && !game.input.keyboard.isDown(Phaser.Keyboard.LEFT) && !game.input.keyboard.isDown(Phaser.Keyboard.RIGHT))
+        {
+            bobba.animations.stop();
+        }
+
 /*
 		if (game.input.mousePointer.isDown)
 		{
