@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>Phaser - test Bobba</title>
+	<script src="lib/phaser.min.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+
+(function () {
+
+	var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+    var bobba,
+		speed = 4,      // speed in frames per second
+        velocity = 100; // bobba's move speed
+
+	function preload() {
+
+		//	32x48 is the size of each frame
+
+		//	There are 18 frames in the PNG - you can leave this value blank if the frames fill up the entire PNG, but in this case there are some
+		//	blank frames at the end, so we tell the loader how many to load
+
+		game.load.spritesheet('bobba', 'assets/mandalorian.png', 32, 48, 16);
+	}
+
+	function create() {
+        console.log('create() called');
+        
+        
+		bobba = game.add.sprite(300, 200, 'bobba');
+        console.log('sprite created');
+        console.log(bobba);
+
+		//	Here we add a new animation called 'walk'
+		//	Because we didn't give any other parameters it's going to make an animation from all available frames in the 'mummy' sprite sheet
+		bobba.animations.add('walkS',[0,1,2,3],speed,true);
+		bobba.animations.add('walkW',[4,5,6,7],speed,true);
+		bobba.animations.add('walkE',[8,9,10,11],speed,true);
+		bobba.animations.add('walkN',[12,13,14,15],speed,true);
+        console.log('animations added');
+
+	}
+
+
+	function update() {
+
+        if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT))
+        {
+            bobba.body.velocity.x = -150;
+            bobba.animations.play('walkW');
+        }
+        else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT))
+        {
+            bobba.body.velocity.x = 150;
+            bobba.animations.play('walkE');
+        }
+
+        if (game.input.keyboard.isDown(Phaser.Keyboard.UP))
+        {
+            bobba.body.velocity.y = -150;
+            bobba.animations.play('walkN');
+        }
+        else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN))
+        {
+            bobba.body.velocity.y = 150;
+            bobba.animations.play('walkS');
+        }
+/*
+		if (game.input.mousePointer.isDown)
+		{
+			game.physics.moveTowardsMouse(bobba, velocity);
+
+		    //	30 is the frame rate (30fps)
+		    //	true means it will loop when it finishes
+		    bobba.animations.play('walkS');
+
+			//	if it's overlapping the mouse, don't move any more
+			if (Phaser.Rectangle.contains(bobba.body, game.input.x, game.input.y))
+			{
+				bobba.body.velocity.setTo(0, 0);
+				bobba.animations.stop();
+			}
+		}
+		else
+		{
+				bobba.body.velocity.setTo(0, 0);
+				bobba.animations.stop();
+		}
+*/
+    }
+})();
+
+</script>
+
+
+</body>
+</html>
+
